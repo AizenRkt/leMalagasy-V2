@@ -24,6 +24,14 @@
         .btn { background: var(--primary); color: #fff; padding: 0.75rem 1.5rem; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem; transition: background 0.2s; }
         .btn:hover { background: var(--primary-hover); }
         .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+        /* Tag Pills */
+        .tag-container { display: flex; flex-wrap: wrap; gap: 0.5rem; border: 1px solid #d1d5db; padding: 1rem; border-radius: 0.5rem; background: #fff; max-height: 200px; overflow-y: auto; }
+        .tag-pill { display: flex; align-items: center; padding: 0.375rem 0.75rem; background: #f1f5f9; border-radius: 9999px; cursor: pointer; font-size: 0.875rem; border: 1px solid transparent; transition: all 0.2s; user-select: none; }
+        .tag-pill:hover { background: #e2e8f0; }
+        .tag-pill.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .tag-pill input { display: none; }
+        .tag-search { margin-bottom: 0.75rem; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; width: 100%; font-size: 0.875rem; }
     </style>
 </head>
 <body>
@@ -64,6 +72,20 @@
             </div>
 
             <div class="form-group">
+                <label>Tags</label>
+                <input type="text" id="tagSearch" class="tag-search" placeholder="Rechercher un tag...">
+                <div class="tag-container" id="tagContainer">
+                    <?php foreach($tags as $t): ?>
+                        <?php $active = in_array($t['id'], $currentTagIds); ?>
+                        <label class="tag-pill <?= $active ? 'active' : '' ?>">
+                            <input type="checkbox" name="tag_ids[]" value="<?= $t['id'] ?>" class="tag-checkbox" <?= $active ? 'checked' : '' ?>>
+                            <?= htmlspecialchars($t['name'] ?? '') ?>
+                        </label>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label>Contenu de l'article</label>
                 <div id="editor"><?= $article->content ?></div>
                 <input type="hidden" name="content" id="hiddenContent">
@@ -98,6 +120,27 @@
             content.value = quill.root.innerHTML;
             return true;
         };
+
+        // Tag search and active state logic
+        const tagSearch = document.getElementById('tagSearch');
+        const tagContainer = document.getElementById('tagContainer');
+        const tagPills = document.querySelectorAll('.tag-pill');
+
+        tagSearch.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            tagPills.forEach(pill => {
+                const text = pill.textContent.trim().toLowerCase();
+                pill.style.display = text.includes(term) ? 'flex' : 'none';
+            });
+        });
+
+        tagPills.forEach(pill => {
+            const checkbox = pill.querySelector('input');
+            pill.addEventListener('click', () => {
+                checkbox.checked = !checkbox.checked;
+                pill.classList.toggle('active', checkbox.checked);
+            });
+        });
     </script>
 </body>
 </html>

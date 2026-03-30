@@ -38,6 +38,7 @@ final class ArticleService
         $db = Database::postgres();
         $query = "SELECT a.*, s.statut FROM article a 
                   LEFT JOIN article_status s ON a.id = s.id_article 
+                  LEFT JOIN article_categories ac ON a.id = ac.id_article
                   WHERE 1=1";
         $params = [];
 
@@ -49,6 +50,11 @@ final class ArticleService
         if (!empty($filters['status'])) {
             $query .= " AND s.statut = ?";
             $params[] = $filters['status'];
+        }
+
+        if (!empty($filters['category_id'])) {
+            $query .= " AND ac.id_category = ?";
+            $params[] = (int) $filters['category_id'];
         }
 
         $query .= " ORDER BY a.created_at DESC";

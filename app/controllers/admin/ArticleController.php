@@ -26,14 +26,19 @@ final class ArticleController
         $filters = [
             'title' => $_GET['title'] ?? null,
             'status' => $_GET['status'] ?? null,
+            'category_id' => $_GET['category_id'] ?? null,
         ];
 
         $articles = $this->articleService->listArticles($filters);
+        
+        $db = Database::postgres();
+        $categories = $db->query('SELECT * FROM categorie ORDER BY name')->fetchAll();
 
         return view('admin/articles/index', [
             'title' => 'Gestion des actualités',
             'articles' => $articles,
             'filters' => $filters,
+            'categories' => $categories,
         ]);
     }
 

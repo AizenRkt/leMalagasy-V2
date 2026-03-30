@@ -64,6 +64,17 @@
                     <option value="ARCHIVE" <?= ($filters['status'] ?? '') === 'ARCHIVE' ? 'selected' : '' ?>>Archivé</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label>Catégorie</label>
+                <select name="category_id">
+                    <option value="">Toutes les catégories</option>
+                    <?php foreach ($categories as $cat): ?>
+                        <option value="<?= $cat['id'] ?>" <?= ($filters['category_id'] ?? '') == $cat['id'] ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($cat['name'] ?? '') ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
             <button type="submit" class="btn btn-outline">Filtrer</button>
             <a href="/admin/articles" class="btn btn-outline">Réinitialiser</a>
         </form>
