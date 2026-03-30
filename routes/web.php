@@ -10,5 +10,9 @@ $router->get('/', [HomeController::class, 'index']);
 $router->get('/about', [HomeController::class, 'about']);
 
 $router->get('/admin/dashboard', [DashboardController::class, 'index']);
+$router->get('/admin/articles', [ArticleController::class, 'index']);
 $router->get('/admin/articles/create', [ArticleController::class, 'create']);
 $router->post('/admin/articles/create', [ArticleController::class, 'store']);
+$router->get('/admin/articles/edit', [ArticleController::class, 'edit']);
+$router->post('/admin/articles/edit', [ArticleController::class, 'update']);
+$router->post('/admin/articles/status', [ArticleController::class, 'changeStatus']);

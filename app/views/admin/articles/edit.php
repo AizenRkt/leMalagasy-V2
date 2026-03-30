@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($title ?? 'Dashboard', ENT_QUOTES, 'UTF-8') ?></title>
+    <title><?= htmlspecialchars($title ?? 'Modifier l\'actualité', ENT_QUOTES, 'UTF-8') ?></title>
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <style>
         :root {
@@ -28,16 +28,16 @@
 </head>
 <body>
     <div class="container">
-        <h1><?= htmlspecialchars($title ?? 'Rédiger une actualité', ENT_QUOTES, 'UTF-8') ?></h1>
-        <form action="/admin/articles/create" method="POST" id="articleForm">
+        <h1><?= htmlspecialchars($title ?? 'Modifier l\'actualité', ENT_QUOTES, 'UTF-8') ?></h1>
+        <form action="/admin/articles/edit?id=<?= $article->id ?>" method="POST" id="articleForm">
             <div class="form-group">
                 <label for="title">Titre</label>
-                <input type="text" name="title" id="title" required placeholder="Entrez le titre de l'actualité...">
+                <input type="text" name="title" id="title" required value="<?= htmlspecialchars($article->title ?? '') ?>">
             </div>
 
             <div class="form-group">
                 <label for="summary">Résumé (facultatif)</label>
-                <textarea name="summary" id="summary" rows="3" placeholder="Un court résumé pour les listes..."></textarea>
+                <textarea name="summary" id="summary" rows="3"><?= htmlspecialchars($article->summary ?? '') ?></textarea>
             </div>
 
             <div class="meta-grid">
@@ -45,7 +45,9 @@
                     <label for="category_id">Catégorie</label>
                     <select name="category_id" id="category_id">
                         <?php foreach($categories as $cat): ?>
-                            <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['name'] ?? '') ?></option>
+                            <option value="<?= $cat['id'] ?>" <?= $cat['id'] == $currentCategoryId ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($cat['name'] ?? '') ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -53,7 +55,9 @@
                     <label for="user_id">Auteur</label>
                     <select name="user_id" id="user_id">
                         <?php foreach($users as $u): ?>
-                            <option value="<?= $u['id'] ?>"><?= htmlspecialchars($u['name'] ?? '') ?></option>
+                            <option value="<?= $u['id'] ?>" <?= $u['id'] == $currentUserId ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($u['name'] ?? '') ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -61,12 +65,14 @@
 
             <div class="form-group">
                 <label>Contenu de l'article</label>
-                <div id="editor"></div>
+                <div id="editor"><?= $article->content ?></div>
                 <input type="hidden" name="content" id="hiddenContent">
             </div>
 
-            <button type="submit" class="btn">Publier l'actualité</button>
-            <p><a href="/admin/dashboard" style="color: #64748b; text-decoration: none; font-size: 0.875rem;">Annuler et revenir</a></p>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <button type="submit" class="btn">Enregistrer les modifications</button>
+                <a href="/admin/articles" style="color: #64748b; text-decoration: none; font-size: 0.875rem;">Annuler</a>
+            </div>
         </form>
     </div>
 
@@ -83,7 +89,7 @@
                     ['clean']
                 ]
             },
-            placeholder: 'Commencez à rédiger votre actualité...'
+            placeholder: 'Modifiez votre actualité...'
         });
 
         var form = document.querySelector('#articleForm');
