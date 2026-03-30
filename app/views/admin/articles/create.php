@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= htmlspecialchars($title ?? 'Dashboard', ENT_QUOTES, 'UTF-8') ?></title>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 2rem; margin: 0; }
+        .container { max-width: 900px; margin: 0 auto; background: var(--card-bg); padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        h1 { margin-top: 0; font-size: 1.875rem; font-weight: 700; color: #111827; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 500; margin-bottom: 0.5rem; }
+        input[type="text"], textarea, select { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; box-sizing: border-box; }
+        #editor { height: 400px; margin-bottom: 1rem; border-radius: 0 0 0.5rem 0.5rem; }
+        .ql-toolbar { border-radius: 0.5rem 0.5rem 0 0; background: #f1f5f9; }
+        .btn { background: var(--primary); color: #fff; padding: 0.75rem 1.5rem; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem; transition: background 0.2s; }
+        .btn:hover { background: var(--primary-hover); }
+        .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?></h1>
+        <form action="/admin/les/create" method="POST" id="articleForm">
+            <div class="form-group">
+                <label for="title">Titre</label>
+                <input type="text" name="title" id="title" required placeholder="Entrez le titre de l'actualité...">
+            </div>
+
+            <div class="form-group">
+                <label for="summary">Résumé (facultatif)</label>
+                <textarea name="summary" id="summary" rows="3" placeholder="Un court résumé pour les listes..."></textarea>
+            </div>
+
+            <div class="meta-grid">
+                <div class="form-group">
+                    <label for="category_id">Catégorie</label>
+                    <select name="category_id" id="category_id">
+                        <?php foreach($categories as $cat): ?>
+                            <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="user_id">Auteur</label>
+                    <select name="user_id" id="user_id">
+                        <?php foreach($users as $u): ?>
+                            <option value="<?= $u['id'] ?>"><?= htmlspecialchars($u['name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Contenu de l'article</label>
+                <div id="editor"></div>
+                <input type="hidden" name="content" id="hiddenContent">
+            </div>
+
+            <button type="submit" class="btn">Publier l'actualité</button>
+            <p><a href="/admin/dashboard" style="color: #64748b; text-decoration: none; font-size: 0.875rem;">Annuler et revenir</a></p>
+        </form>
+    </div>
+
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script>
+        var quill = new Quill('#editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['link', 'image', 'video'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    ['clean']
+                ]
+            },
+            placeholder: 'Commencez à rédiger votre actualité...'
+        });
+
+        var form = document.querySelector('#articleForm');
+        form.onsubmit = function() {
+            var content = document.querySelector('#hiddenContent');
+            content.value = quill.root.innerHTML;
+            return true;
+        };
+    </script>
+</body>
+</html>

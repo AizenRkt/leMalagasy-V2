@@ -32,6 +32,7 @@ CREATE TABLE article (
     id SERIAL PRIMARY KEY,
     title TEXT,
     summary TEXT,
+    mongodb_id VARCHAR(50),      -- Reference to MongoDB content
     published_at TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
