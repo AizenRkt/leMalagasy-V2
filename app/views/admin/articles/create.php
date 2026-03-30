@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($title ?? 'Dashboard', ENT_QUOTES, 'UTF-8') ?></title>
+    <meta name="description" content="Espace de rédaction - Créez de nouveaux articles avec un éditeur riche et optimisé pour le référencement.">
+    <title><?= htmlspecialchars($title ?? 'Rédiger une actualité', ENT_QUOTES, 'UTF-8') ?> | leMalagasy</title>
     <link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet">
     <style>
         :root {
@@ -110,7 +111,21 @@
         var form = document.querySelector('#articleForm');
         form.onsubmit = function() {
             var content = document.querySelector('#hiddenContent');
-            content.value = quill.root.innerHTML;
+            var editorHtml = quill.root.innerHTML;
+            
+            // SEO: Automatically add alt text to images if missing
+            var tempDiv = document.createElement('div');
+            tempDiv.innerHTML = editorHtml;
+            var images = tempDiv.querySelectorAll('img');
+            var articleTitle = document.getElementById('title').value || 'Actualité';
+            
+            images.forEach(function(img) {
+                if (!img.getAttribute('alt')) {
+                    img.setAttribute('alt', 'Illustration de : ' + articleTitle);
+                }
+            });
+            
+            content.value = tempDiv.innerHTML;
             return true;
         };
 

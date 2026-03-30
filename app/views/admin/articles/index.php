@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($title ?? 'Gestion des actualités', ENT_QUOTES, 'UTF-8') ?></title>
+    <meta name="description" content="Tableau de bord de gestion des actualités - Gérer, filtrer et modifier vos articles en toute simplicité.">
+    <title><?= htmlspecialchars($title ?? 'Gestion des actualités', ENT_QUOTES, 'UTF-8') ?> | leMalagasy</title>
     <style>
         :root {
             --primary: #2563eb;
