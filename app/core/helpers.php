@@ -25,6 +25,29 @@ function view(string $view, array $data = []): string
 
     ob_start();
     require $viewFile;
+    $content = (string) ob_get_clean();
+
+    $layout = $data['_layout'] ?? null;
+    if ($layout === null && str_starts_with($view, 'front/')) {
+        $layout = 'front/layout';
+    }
+
+    if (!is_string($layout) || $layout === '') {
+        return $content;
+    }
+
+    $layoutFile = base_path('app/views/' . $layout . '.php');
+    if (!is_file($layoutFile)) {
+        throw new RuntimeException('Layout not found: ' . $layout);
+    }
+
+    $layoutData = $data;
+    $layoutData['content'] = $content;
+    $layoutData['view'] = $view;
+    extract($layoutData, EXTR_SKIP);
+
+    ob_start();
+    require $layoutFile;
 
     return (string) ob_get_clean();
 }
