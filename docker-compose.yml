@@ -33,7 +33,6 @@ services:
       - mongo
     networks:
       - lemalagasy-net
-
   postgres:
     image: postgres:17
     container_name: lemalagasy-postgres
@@ -46,6 +45,8 @@ services:
       - POSTGRES_PASSWORD=lemalagasy_password
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/00-init-db.sh:/docker-entrypoint-initdb.d/00-init-db.sh:ro
+      - ./db/01_bdd.sql:/opt/init-sql/01_bdd.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U lemalagasy_user -d lemalagasy_db"]
       interval: 10s
