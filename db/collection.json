@@ -1,0 +1,18 @@
+{
+  "_id": "642f...",
+  "titre": "Guerre en Ukraine : nouvelles évolutions",
+  "contenu": "Texte complet de l'article...",
+  "date_publication": "2026-03-29T12:00:00Z",
+  "auteur": {
+      "id": 1,
+      "nom": "Jean Dupont"
+  },
+  "categorie": {
+      "id": 1,
+      "nom": "Politique"
+  },
+  "tags": [
+      { "id": 1, "nom": "Ukraine" },
+      { "id": 2, "nom": "Guerre" }
+  ]
+}

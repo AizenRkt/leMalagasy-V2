@@ -1,0 +1,13 @@
+{
+  "name": "lemalagasy/app",
+  "description": "Base PHP application without framework",
+  "type": "project",
+  "require": {
+    "php": ">=8.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  }
+}

@@ -1,0 +1,81 @@
+name: lemalagasy-V2
+
+services:
+
+  php-apache:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    image: lemalagasy-php:8.2-apache
+    container_name: lemalagasy-php-apache
+    restart: unless-stopped
+    command: >
+      sh -c "a2enmod rewrite && apache2-foreground"
+    environment:
+      - DB_PG_HOST=postgres
+      - DB_PG_PORT=5432
+      - DB_PG_DATABASE=lemalagasy_db
+      - DB_PG_USERNAME=lemalagasy_user
+      - DB_PG_PASSWORD=lemalagasy_password
+      - DB_MONGO_HOST=mongo
+      - DB_MONGO_PORT=27017
+      - DB_MONGO_DATABASE=lemalagasy_db
+      - DB_MONGO_USERNAME=
+      - DB_MONGO_PASSWORD=
+      - DB_MONGO_AUTH_SOURCE=admin
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/apache/000-default.conf:/etc/apache2/sites-available/000-default.conf:ro
+    depends_on:
+      - postgres
+      - mongo
+    networks:
+      - lemalagasy-net
+
+  postgres:
+    image: postgres:17
+    container_name: lemalagasy-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=lemalagasy_db
+      - POSTGRES_USER=lemalagasy_user
+      - POSTGRES_PASSWORD=lemalagasy_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lemalagasy_user -d lemalagasy_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lemalagasy-net
+
+  mongo:
+    image: mongo:7
+    container_name: lemalagasy-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lemalagasy-net
+
+volumes:
+  postgres_data:
+  mongo_data:
+  frontoffice_node_modules:
+  backoffice_node_modules:
+
+networks:
+  lemalagasy-net:
+    driver: bridge
