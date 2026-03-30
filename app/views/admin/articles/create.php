@@ -129,7 +129,6 @@
             return true;
         };
 
-        // Tag search and active state logic
         const tagSearch = document.getElementById('tagSearch');
         const tagContainer = document.getElementById('tagContainer');
         const tagPills = document.querySelectorAll('.tag-pill');

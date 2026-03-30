@@ -9,7 +9,11 @@
 <body>
     <h1><?= htmlspecialchars($title ?? 'Tableau de bord', ENT_QUOTES, 'UTF-8') ?></h1>
     <p>Bienvenue dans votre zone d'administration.</p>
-    <p><a href="/admin/articles">Gérer les actualités</a></p>
+    <ul style="list-style: none; padding: 0;">
+        <li style="margin-bottom: 0.5rem;"><a href="/admin/articles">Gestion des articles</a></li>
+        <li style="margin-bottom: 0.5rem;"><a href="/admin/categories">Gestion des catégories</a></li>
+        <li style="margin-bottom: 0.5rem;"><a href="/admin/tags">Gestion des tags</a></li>
+    </ul>
     <p><a href="/">Retour au site public</a></p>
 </body>
 </html>
