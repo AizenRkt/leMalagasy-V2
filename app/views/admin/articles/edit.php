@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($title ?? 'Modifier l\'actualité', ENT_QUOTES, 'UTF-8') ?></title>
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet">
     <style>
         :root {
             --primary: #2563eb;
@@ -98,7 +98,7 @@
         </form>
     </div>
 
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="/assets/vendor/quill/quill.js"></script>
     <script>
         var quill = new Quill('#editor', {
             theme: 'snow',
