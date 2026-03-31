@@ -101,6 +101,18 @@ if (!function_exists('renderArticleCard')) {
 						<span><?= newsEsc($safeArticle['readingTime']) ?> de lecture</span>
 					</div>
 
+					<?php if ($finalVariant === 'standard' && !empty($safeArticle['image'])): ?>
+						<figure class="news-article-card-thumb">
+							<?php if ($safeArticle['link'] !== null): ?>
+								<a class="news-article-card-link" href="<?= newsEsc($safeArticle['link']) ?>" aria-label="Lire l article: <?= newsEsc($safeArticle['title']) ?>">
+									<img src="<?= newsEsc($safeArticle['image']) ?>" alt="<?= newsEsc($safeArticle['title']) ?>" loading="lazy" width="560" height="360">
+								</a>
+							<?php else: ?>
+								<img src="<?= newsEsc($safeArticle['image']) ?>" alt="<?= newsEsc($safeArticle['title']) ?>" loading="lazy" width="560" height="360">
+							<?php endif; ?>
+						</figure>
+					<?php endif; ?>
+
 					<?php if ($finalVariant === 'featured' && !empty($safeArticle['image'])): ?>
 						<figure class="news-article-card-featured-media">
 							<?php if ($safeArticle['link'] !== null): ?>

@@ -93,6 +93,20 @@
     transition: transform 220ms ease, box-shadow 220ms ease;
 }
 
+.news-article-card-thumb {
+    margin: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.news-article-card-thumb img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+}
+
 .news-article-card.is-standard:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 28px rgba(16, 20, 24, 0.08);

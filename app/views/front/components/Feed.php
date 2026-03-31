@@ -40,7 +40,7 @@ renderFrontStylesheet('/assets/front/feed.css');
 
 	<section class="news-feed-spotlight" aria-label="selection de la redaction">
 		<div class="news-feed-spotlight-header">
-			<h2>Selection de la redaction</h2>
+			<h2>Séléction de la redaction</h2>
 			<span><?= newsEsc((string) count($spotlightArticles)) ?> sujets a lire</span>
 		</div>
 		<div class="news-feed-spotlight-grid">
