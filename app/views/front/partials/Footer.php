@@ -1,7 +1,7 @@
 <?php
 $rubriques = ['Actualites', 'Opinions', 'Economie'];
 $aPropos = ['La redaction', 'Contact', 'Mentions legales'];
-$createurs = ['ETU003289 Sanda', 'ETU003658 Patrick'];
+$createurs = ['ETU003246 Sanda', 'ETU003658 Patrick'];
 ?>
 
 <style>

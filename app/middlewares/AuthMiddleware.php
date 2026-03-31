@@ -8,12 +8,12 @@ final class AuthMiddleware
 {
     public static function check(): void
     {
-        // Replace this with real session-based authentication.
-        $isAuthenticated = true;
+        ensure_session_started();
+        $isAuthenticated = admin_is_authenticated();
 
         if (!$isAuthenticated) {
-            http_response_code(401);
-            exit('Unauthorized');
+            header('Location: /admin/login');
+            exit;
         }
     }
 }

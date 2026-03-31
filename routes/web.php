@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Controllers\Front\HomeController;
 use App\Controllers\Front\SitemapController;
 use App\Controllers\Admin\ArticleController;
+use App\Controllers\Admin\AuthController;
 use App\Controllers\Admin\CategoryFeaturedController;
 use App\Controllers\Admin\DashboardController;
 use App\Controllers\Admin\HomeFeedController;
@@ -17,6 +18,9 @@ $router->get('/category', [HomeController::class, 'singleCategory']);
 $router->get('/sitemap.xml', [SitemapController::class, 'index']);
 
 $router->get('/admin/dashboard', [DashboardController::class, 'index']);
+$router->get('/admin/login', [AuthController::class, 'loginForm']);
+$router->post('/admin/login', [AuthController::class, 'login']);
+$router->post('/admin/logout', [AuthController::class, 'logout']);
 $router->get('/admin/articles', [ArticleController::class, 'index']);
 $router->get('/admin/articles/create', [ArticleController::class, 'create']);
 $router->post('/admin/articles/create', [ArticleController::class, 'store']);

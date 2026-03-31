@@ -17,9 +17,12 @@ renderFrontStylesheet('/assets/front/feed.css');
 	</div>
 
 	<div class="news-feed-hero-layout">
-		<?php if (is_array($featuredArticle)): ?>
-			<?php renderArticleCard($featuredArticle, 'featured'); ?>
-		<?php endif; ?>
+		<section class="news-feed-featured" aria-label="Article a la une">
+			<h2 class="sr-only">Article a la une</h2>
+			<?php if (is_array($featuredArticle)): ?>
+				<?php renderArticleCard($featuredArticle, 'featured'); ?>
+			<?php endif; ?>
+		</section>
 
 		<aside class="news-feed-latest" aria-label="Dernieres infos">
 			<h2 class="news-feed-latest-title">Dernieres informations</h2>

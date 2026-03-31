@@ -22,6 +22,7 @@ services:
       - DB_MONGO_USERNAME=
       - DB_MONGO_PASSWORD=
       - DB_MONGO_AUTH_SOURCE=admin
+      - ADMIN_PASSWORD=admin123
     ports:
       - "8080:80"
     volumes:

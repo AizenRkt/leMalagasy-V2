@@ -198,3 +198,46 @@ function asset_url(string $path): string
 
     return $normalizedPath . '?v=' . rawurlencode($version);
 }
+
+function ensure_session_started(): void
+{
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+}
+
+/** @return array<string, mixed>|null */
+function admin_user(): ?array
+{
+    ensure_session_started();
+
+    $user = $_SESSION['admin_user'] ?? null;
+    return is_array($user) ? $user : null;
+}
+
+function admin_is_authenticated(): bool
+{
+    return admin_user() !== null;
+}
+
+/** @param array{id:int,name:string,email:string,role:string} $user */
+function admin_login(array $user): void
+{
+    ensure_session_started();
+
+    session_regenerate_id(true);
+    $_SESSION['admin_user'] = [
+        'id' => (int) ($user['id'] ?? 0),
+        'name' => (string) ($user['name'] ?? ''),
+        'email' => (string) ($user['email'] ?? ''),
+        'role' => (string) ($user['role'] ?? ''),
+    ];
+}
+
+function admin_logout(): void
+{
+    ensure_session_started();
+
+    unset($_SESSION['admin_user']);
+    session_regenerate_id(true);
+}

@@ -404,6 +404,13 @@ select {
     border-bottom: 1px solid rgba(148, 163, 184, 0.25);
 }
 
+.admin-sidebar-user {
+    margin: 0.6rem 0.5rem 0.2rem;
+    color: #94a3b8;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
 .admin-sidebar-nav {
     margin-top: 0.8rem;
     display: grid;
@@ -429,6 +436,24 @@ select {
 .admin-sidebar-link.is-active {
     background: #1d4ed8;
     color: #ffffff;
+}
+
+.admin-sidebar-logout-form {
+    margin: 0;
+}
+
+.admin-sidebar-logout {
+    width: 100%;
+    text-align: left;
+    border: 0;
+    background: rgba(239, 68, 68, 0.18);
+    color: #fecaca;
+    cursor: pointer;
+}
+
+.admin-sidebar-logout:hover {
+    background: rgba(239, 68, 68, 0.28);
+    color: #ffe4e6;
 }
 
 body {
