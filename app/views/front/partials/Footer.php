@@ -7,8 +7,8 @@ $createurs = ['ETU003289 Sanda', 'ETU003658 Patrick'];
 <style>
 	.news-footer {
 		margin-top: 40px;
-		border-top: 2px solid #3f5546;
-		background: #5f7a68;
+		border-top: 2px solid #1f3228;
+		background: #2e4a3a;
 		color: #ffffff;
 	}
 
@@ -29,7 +29,7 @@ $createurs = ['ETU003289 Sanda', 'ETU003658 Patrick'];
 
 	.news-footer-text {
 		margin: 0;
-		color: rgba(255, 255, 255, 0.92);
+		color: #ffffff;
 		line-height: 1.5;
 	}
 
@@ -43,24 +43,30 @@ $createurs = ['ETU003289 Sanda', 'ETU003658 Patrick'];
 
 	.news-footer-list a {
 		text-decoration: none;
-		color: rgba(255, 255, 255, 0.92);
+		color: #ffffff;
 	}
 
 	.news-footer-list a:hover {
-		color: #ffffff;
+		color: #f3fff7;
 		text-decoration: underline;
-		text-decoration-color: rgba(255, 255, 255, 0.75);
+		text-decoration-color: #f3fff7;
 		text-underline-offset: 2px;
+	}
+
+	.news-footer-list a:focus-visible {
+		outline: 3px solid #ffffff;
+		outline-offset: 2px;
+		border-radius: 2px;
 	}
 
 	.news-footer-bottom {
 		width: min(1100px, 92vw);
 		margin: 0 auto;
-		border-top: 1px solid rgba(255, 255, 255, 0.35);
+		border-top: 1px solid rgba(255, 255, 255, 0.5);
 		padding: 12px 0 20px;
-		color: rgba(255, 255, 255, 0.86);
+		color: #f7fff9;
 		font-family: 'Trebuchet MS', Helvetica, Arial, sans-serif;
-		font-size: 12px;
+		font-size: 13px;
 	}
 
 	@media (max-width: 820px) {

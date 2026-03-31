@@ -180,3 +180,21 @@ function seo_description(string $text, int $maxLength = 160): string
 
     return rtrim(mb_substr($clean, 0, $maxLength - 1, 'UTF-8')) . '…';
 }
+
+function asset_url(string $path): string
+{
+    $normalizedPath = '/' . ltrim($path, '/');
+
+    if (!str_starts_with($normalizedPath, '/assets/')) {
+        return $normalizedPath;
+    }
+
+    $fullPath = base_path('public' . $normalizedPath);
+    if (!is_file($fullPath)) {
+        return $normalizedPath;
+    }
+
+    $version = (string) (filemtime($fullPath) ?: '1');
+
+    return $normalizedPath . '?v=' . rawurlencode($version);
+}

@@ -67,7 +67,7 @@ if (!function_exists('renderFrontStylesheet')) {
 				}
 
 				$printed[$href] = true;
-				echo '<link rel="stylesheet" href="' . newsEsc($href) . '">';
+				echo '<link rel="stylesheet" href="' . newsEsc(asset_url($href)) . '">';
 		}
 }
 

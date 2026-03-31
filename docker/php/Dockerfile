@@ -14,5 +14,7 @@ RUN apt-get update \
     && docker-php-ext-install pdo_pgsql pgsql gd \
     && pecl install mongodb \
     && docker-php-ext-enable mongodb \
+    && a2enmod rewrite headers expires deflate \
+    && (a2enmod brotli || true) \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*

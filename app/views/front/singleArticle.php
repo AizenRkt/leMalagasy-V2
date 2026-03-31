@@ -11,7 +11,7 @@ $contentHtml = (string) ($articleData['contentHtml'] ?? '');
 
 <section class="news-article-page" aria-label="Article complet">
   <header class="news-article-headline">
-    <h2 class="news-article-category\"><?= newsEsc((string) ($articleData['category'] ?? 'Actualites')) ?></h2>
+    <p class="news-article-category"><?= newsEsc((string) ($articleData['category'] ?? 'Actualites')) ?></p>
 
     <ul class="news-article-tags" aria-label="Tags de l article">
       <?php foreach ($tags as $tag): ?>
@@ -19,8 +19,8 @@ $contentHtml = (string) ($articleData['contentHtml'] ?? '');
       <?php endforeach; ?>
     </ul>
 
-    <h1 class="news-article-title\"><?= newsEsc((string) ($articleData['title'] ?? 'Article')) ?></h1>
-    <p class="news-article-standfirst\"><?= newsEsc((string) ($articleData['standfirst'] ?? '')) ?></p>
+    <h1 class="news-article-title"><?= newsEsc((string) ($articleData['title'] ?? 'Article')) ?></h1>
+    <p class="news-article-standfirst"><?= newsEsc((string) ($articleData['standfirst'] ?? '')) ?></p>
 
     <div class="news-article-meta">
       <span>Par <?= newsEsc((string) ($articleData['author'] ?? 'Redaction')) ?></span>
@@ -55,7 +55,7 @@ $contentHtml = (string) ($articleData['contentHtml'] ?? '');
             $title = is_array($item) ? (string) ($item['title'] ?? 'Article') : (string) $item;
             $href = is_array($item)
               ? (string) ($item['href'] ?? article_url($title, (int) ($item['id'] ?? 0)))
-              : '#';
+              : '/article';
           ?>
           <li><a href="<?= newsEsc($href) ?>"><?= newsEsc($title) ?></a></li>
         <?php endforeach; ?>

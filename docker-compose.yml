@@ -9,8 +9,7 @@ services:
     image: lemalagasy-php:8.2-apache
     container_name: lemalagasy-php-apache
     restart: unless-stopped
-    command: >
-      sh -c "a2enmod rewrite && apache2-foreground"
+    command: apache2-foreground
     environment:
       - DB_PG_HOST=postgres
       - DB_PG_PORT=5432

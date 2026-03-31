@@ -28,9 +28,9 @@
         $ogType = 'website';
     }
 
-    $socialImage = trim((string) ($seo['image'] ?? absolute_url('/assets/front/logo.png')));
+    $socialImage = trim((string) ($seo['image'] ?? absolute_url(asset_url('/assets/front/logo.png'))));
     if ($socialImage === '') {
-        $socialImage = absolute_url('/assets/front/logo.png');
+        $socialImage = absolute_url(asset_url('/assets/front/logo.png'));
     }
     if ($socialImage !== '' && str_starts_with($socialImage, '/')) {
         $socialImage = absolute_url($socialImage);
@@ -73,6 +73,32 @@
             font-family: Georgia, 'Times New Roman', serif;
         }
 
+        .skip-link {
+            position: absolute;
+            left: 12px;
+            top: -48px;
+            z-index: 2000;
+            padding: 10px 14px;
+            border-radius: 6px;
+            background: #111a23;
+            color: #ffffff;
+            text-decoration: none;
+            font-family: 'Trebuchet MS', Helvetica, Arial, sans-serif;
+            font-weight: 700;
+            transition: top 160ms ease;
+        }
+
+        .skip-link:focus {
+            top: 10px;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        [role="button"]:focus-visible {
+            outline: 3px solid #0b57d0;
+            outline-offset: 2px;
+        }
+
         .page-content {
             width: min(1100px, 92vw);
             margin: 24px auto;
@@ -103,9 +129,10 @@
     </style>
 </head>
 <body>
+    <a class="skip-link" href="#main-content">Aller au contenu principal</a>
     <?php require base_path('app/views/front/partials/Navbar.php'); ?>
 
-    <main class="page-content">
+    <main id="main-content" class="page-content">
         <?= $content ?>
     </main>
 

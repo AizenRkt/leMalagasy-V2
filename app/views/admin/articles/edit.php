@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Modifier une actualité existante - Mettez à jour le contenu, les tags et les catégories avec une optimisation SEO en temps réel.">
     <title><?= htmlspecialchars($title ?? 'Modifier l\'actualité', ENT_QUOTES, 'UTF-8') ?> | leMalagasy</title>
-    <link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/admin/admin.css">
+    <link href="<?= htmlspecialchars(asset_url('/assets/vendor/quill/quill.snow.css'), ENT_QUOTES, 'UTF-8') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?= htmlspecialchars(asset_url('/assets/admin/admin.css'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body>
     <?php require_once base_path('app/views/admin/partials/sidebar.php'); ?>
@@ -73,7 +73,7 @@
         </form>
     </div>
 
-    <script src="/assets/vendor/quill/quill.js"></script>
+    <script src="<?= htmlspecialchars(asset_url('/assets/vendor/quill/quill.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
     <script>
         var quill = new Quill('#editor', {
             theme: 'snow',

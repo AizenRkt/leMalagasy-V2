@@ -127,6 +127,14 @@ $liveItems = [
 		color: var(--ink-900, #111a23);
 	}
 
+	.news-navbar-brand:focus-visible,
+	.news-navbar-subscribe:focus-visible,
+	.news-menu-link:focus-visible,
+	.news-live-more:focus-visible {
+		outline: 3px solid #0b57d0;
+		outline-offset: 2px;
+	}
+
 	.news-live-strip {
 		border-top: 1px solid var(--line, #d9dde3);
 		border-bottom: 1px solid var(--line, #d9dde3);
@@ -259,7 +267,7 @@ $liveItems = [
 	</div>
 
 	<nav class="news-navbar-menu" aria-label="Navigation principale">
-		<a href="/" class="news-menu-link is-active">Actu</a>
+		<a href="/" class="news-menu-link is-active" aria-current="page">Actu</a>
 		<?php foreach ($menuItems as $item): ?>
 			<a href="<?= htmlspecialchars($item['href'], ENT_QUOTES, 'UTF-8') ?>" class="news-menu-link">
 				<?= htmlspecialchars($item['label'], ENT_QUOTES, 'UTF-8') ?>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Gestion des <?= $type === 'category' ? 'catégories' : 'tags' ?> - Administrez facilement votre contenu.">
     <title><?= htmlspecialchars($title ?? 'Taxonomie', ENT_QUOTES, 'UTF-8') ?> | leMalagasy</title>
-    <link rel="stylesheet" href="/assets/admin/admin.css">
+    <link rel="stylesheet" href="<?= htmlspecialchars(asset_url('/assets/admin/admin.css'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body>
     <?php require_once base_path('app/views/admin/partials/sidebar.php'); ?>
