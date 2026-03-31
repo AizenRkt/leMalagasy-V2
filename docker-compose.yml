@@ -29,8 +29,10 @@ services:
       - ./:/var/www/html
       - ./docker/apache/000-default.conf:/etc/apache2/sites-available/000-default.conf:ro
     depends_on:
-      - postgres
-      - mongo
+      postgres:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
     networks:
       - lemalagasy-net
   postgres:
