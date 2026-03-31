@@ -83,21 +83,33 @@ final class ArticleService
         return $data;
     }
 
-    /** @return string[] */
+    /**
+     * @return array<int, array{id: int, title: string, href: string}>
+     */
     public function getRelatedTitles(int $excludeId, int $limit = 4): array
     {
         $db = Database::postgres();
-        $stmt = $db->prepare('SELECT title FROM article WHERE id <> ? ORDER BY COALESCE(published_at, created_at) DESC LIMIT ?');
+        $stmt = $db->prepare('SELECT id, title FROM article WHERE id <> ? ORDER BY COALESCE(published_at, created_at) DESC LIMIT ?');
         $stmt->bindValue(1, $excludeId, PDO::PARAM_INT);
         $stmt->bindValue(2, $limit, PDO::PARAM_INT);
         $stmt->execute();
 
-        $titles = [];
+        $related = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $titles[] = (string) $row['title'];
+            $id = (int) ($row['id'] ?? 0);
+            $title = (string) ($row['title'] ?? 'Article');
+            if ($id <= 0) {
+                continue;
+            }
+
+            $related[] = [
+                'id' => $id,
+                'title' => $title,
+                'href' => article_url($title, $id),
+            ];
         }
 
-        return $titles;
+        return $related;
     }
 
     /** @return Article[] */

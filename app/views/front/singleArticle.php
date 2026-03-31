@@ -50,8 +50,14 @@ $contentHtml = (string) ($articleData['contentHtml'] ?? '');
     <aside class="news-article-aside" aria-label="Articles lies">
       <h3>A lire aussi</h3>
       <ul class="news-article-related">
-        <?php foreach ($relatedArticles as $headline): ?>
-          <li><a href="#"><?= newsEsc($headline) ?></a></li>
+        <?php foreach ($relatedArticles as $item): ?>
+          <?php
+            $title = is_array($item) ? (string) ($item['title'] ?? 'Article') : (string) $item;
+            $href = is_array($item)
+              ? (string) ($item['href'] ?? article_url($title, (int) ($item['id'] ?? 0)))
+              : '#';
+          ?>
+          <li><a href="<?= newsEsc($href) ?>"><?= newsEsc($title) ?></a></li>
         <?php endforeach; ?>
       </ul>
     </aside>
