@@ -1,5 +1,8 @@
 RewriteEngine On
 
+# SEO article URL: /slug-123.html -> /article?id=123
+RewriteRule ^([a-z0-9-]+)-([0-9]+)\.html$ article?id=$2 [QSA,L,NC]
+
 # If the requested file or directory exists, serve it directly.
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d

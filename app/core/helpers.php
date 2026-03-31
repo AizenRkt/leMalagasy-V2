@@ -85,3 +85,32 @@ function config(string $key, mixed $default = null): mixed
 
     return $value;
 }
+
+function article_url(string $title, int $id): string
+{
+    if ($id <= 0) {
+        return '/article';
+    }
+
+    $value = trim($title);
+    if ($value === '') {
+        return '/article?id=' . (string) $id;
+    }
+
+    $slug = mb_strtolower($value, 'UTF-8');
+    if (function_exists('iconv')) {
+        $converted = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $slug);
+        if (is_string($converted) && $converted !== '') {
+            $slug = $converted;
+        }
+    }
+
+    $slug = preg_replace('/[^a-z0-9]+/', '-', $slug) ?? '';
+    $slug = trim($slug, '-');
+
+    if ($slug === '') {
+        $slug = 'article';
+    }
+
+    return '/' . $slug . '-' . (string) $id . '.html';
+}

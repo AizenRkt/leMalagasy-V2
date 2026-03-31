@@ -24,6 +24,16 @@ final class Router
         $normalizedUri = $this->normalizeUri($uri);
         $action = $this->routes[$method][$normalizedUri] ?? null;
 
+        if ($action === null && strtoupper($method) === 'GET') {
+            if (preg_match('#^/[a-z0-9-]+-([0-9]+)\.html$#i', $normalizedUri, $matches)) {
+                $id = (int) ($matches[1] ?? 0);
+                if ($id > 0) {
+                    $_GET['id'] = $id;
+                    $action = $this->routes['GET']['/article'] ?? null;
+                }
+            }
+        }
+
         if ($action === null) {
             http_response_code(404);
             echo view('errors/404', ['uri' => $normalizedUri]);
