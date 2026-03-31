@@ -11,6 +11,8 @@
     <p>Bienvenue dans votre zone d'administration.</p>
     <ul style="list-style: none; padding: 0;">
         <li style="margin-bottom: 0.5rem;"><a href="/admin/articles">Gestion des articles</a></li>
+        <li style="margin-bottom: 0.5rem;"><a href="/admin/feed">Gestion du feed home</a></li>
+        <li style="margin-bottom: 0.5rem;"><a href="/admin/category-featured">Articles phares par categorie</a></li>
         <li style="margin-bottom: 0.5rem;"><a href="/admin/categories">Gestion des catégories</a></li>
         <li style="margin-bottom: 0.5rem;"><a href="/admin/tags">Gestion des tags</a></li>
     </ul>

@@ -26,6 +26,21 @@
     line-height: 1.2;
 }
 
+.news-article-card-link {
+    color: var(--ink-900, #111a23) !important;
+    text-decoration: none !important;
+}
+
+.news-article-card-link:visited {
+    color: var(--ink-900, #111a23) !important;
+    text-decoration: none !important;
+}
+
+.news-article-card-link:hover,
+.news-article-card-link:focus-visible {
+    text-decoration: underline !important;
+}
+
 .news-article-card-excerpt {
     margin: 0;
     color: var(--ink-700, #2f3a45);

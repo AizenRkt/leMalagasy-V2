@@ -74,6 +74,9 @@ if (!function_exists('renderFrontStylesheet')) {
 if (!function_exists('renderArticleCard')) {
 		function renderArticleCard($article = [], $variant = 'standard')
 		{
+				$articleId = isset($article['id']) ? (int) $article['id'] : 0;
+				$link = $article['href'] ?? ($articleId > 0 ? article_url((string) ($article['title'] ?? ''), $articleId) : null);
+
 				$safeArticle = [
 						'category' => $article['category'] ?? 'Actualites',
 						'title' => $article['title'] ?? 'Titre article',
@@ -82,6 +85,7 @@ if (!function_exists('renderArticleCard')) {
 						'publishedAt' => $article['publishedAt'] ?? date(DATE_ATOM),
 						'readingTime' => $article['readingTime'] ?? '4 min',
 						'image' => $article['image'] ?? null,
+						'link' => is_string($link) && $link !== '' ? $link : null,
 				];
 
 				$allowedVariants = ['featured', 'standard', 'compact'];
@@ -99,11 +103,23 @@ if (!function_exists('renderArticleCard')) {
 
 					<?php if ($finalVariant === 'featured' && !empty($safeArticle['image'])): ?>
 						<figure class="news-article-card-featured-media">
-							<img src="<?= newsEsc($safeArticle['image']) ?>" alt="<?= newsEsc($safeArticle['title']) ?>" loading="lazy">
+							<?php if ($safeArticle['link'] !== null): ?>
+								<a class="news-article-card-link" href="<?= newsEsc($safeArticle['link']) ?>" aria-label="Lire l article: <?= newsEsc($safeArticle['title']) ?>">
+									<img src="<?= newsEsc($safeArticle['image']) ?>" alt="<?= newsEsc($safeArticle['title']) ?>" loading="lazy">
+								</a>
+							<?php else: ?>
+								<img src="<?= newsEsc($safeArticle['image']) ?>" alt="<?= newsEsc($safeArticle['title']) ?>" loading="lazy">
+							<?php endif; ?>
 						</figure>
 					<?php endif; ?>
 
-					<h3 class="news-article-card-title"><?= newsEsc($safeArticle['title']) ?></h3>
+					<h3 class="news-article-card-title">
+						<?php if ($safeArticle['link'] !== null): ?>
+							<a class="news-article-card-link" href="<?= newsEsc($safeArticle['link']) ?>"><?= newsEsc($safeArticle['title']) ?></a>
+						<?php else: ?>
+							<?= newsEsc($safeArticle['title']) ?>
+						<?php endif; ?>
+					</h3>
 					<p class="news-article-card-excerpt"><?= newsEsc($safeArticle['excerpt']) ?></p>
 
 					<div class="news-article-card-footer">

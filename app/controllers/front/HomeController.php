@@ -6,32 +6,35 @@ namespace App\Controllers\Front;
 
 use App\Services\ArticleService;
 use App\Services\CategoryService;
+use App\Services\HomeFeedService;
 
 final class HomeController
 {
     public function index(): string
     {
-        $service = new ArticleService();
-        $articles = $service->latest();
+        $service = new HomeFeedService();
+        $feedData = $service->getHomeFeedData();
 
         return view('front/home', [
             'title' => 'Accueil',
-            'articles' => $articles,
-        ] + $this->frontCommonData());
-    }
-
-    public function about(): string
-    {
-        return view('front/about', [
-            'title' => 'A propos',
+            'featuredArticle' => $feedData['featuredArticle'],
+            'latestArticles' => $feedData['latestArticles'],
+            'spotlightArticles' => $feedData['spotlightArticles'],
         ] + $this->frontCommonData());
     }
 
     public function singleArticle(): string
     {
         $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        if ($id === false || $id === null) {
+            $path = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH);
+            if (is_string($path) && preg_match('/-([0-9]+)\.html$/', $path, $matches)) {
+                $id = (int) ($matches[1] ?? 0);
+            }
+        }
+
         $service = new ArticleService();
-        $articleData = $service->getFrontArticle($id !== false ? $id : null);
+        $articleData = $service->getFrontArticle(($id !== false && $id !== null) ? (int) $id : null);
 
         if ($articleData === null) {
             http_response_code(404);
@@ -49,8 +52,20 @@ final class HomeController
 
     public function singleCategory(): string
     {
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $service = new CategoryService();
+        $categoryData = $service->getCategoryPageData($id !== false ? $id : null);
+
+        if ($categoryData === null) {
+            http_response_code(404);
+            return view('errors/404', ['uri' => '/category']);
+        }
+
         return view('front/singleCategory', [
-            'title' => 'Categorie unique',
+            'title' => 'Categorie: ' . (string) ($categoryData['name'] ?? ''),
+            'categoryData' => $categoryData,
+            'featuredArticles' => $categoryData['featuredArticles'] ?? [],
+            'categoryArticles' => $categoryData['categoryArticles'] ?? [],
         ] + $this->frontCommonData());
     }
 
