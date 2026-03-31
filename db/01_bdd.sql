@@ -67,3 +67,39 @@ CREATE TABLE article_status (
     statut statut_article NOT NULL DEFAULT 'BROUILLON',
     id_article INT REFERENCES article(id)
 );
+
+INSERT INTO role (name) VALUES
+('admin'),
+('journalist'),
+('editor'),
+('superjournalist');
+
+INSERT INTO utilisateur (id_role, name, email) VALUES
+(1, 'Rado Mihaja', 'rado.mihaja@lemalagasy.com'),
+(2, 'Patrick Randria', 'patrick.randria@lemalagasy.com'),
+(2, 'Sanda Rakoto', 'sanda.rakoto@lemalagasy.com'),
+(3, 'Paul Rabary', 'paul.rabary@lemalagasy.com'),
+(4, 'David Andrianina', 'david.andrianina@lemalagasy.com');
+
+INSERT INTO categorie (name) VALUES
+('International'),
+('Guerre'),
+('Politique'),
+('Economie'),
+('Analyse'),
+('Diplomatie'),
+('Sécurité');
+
+INSERT INTO tag (name) VALUES
+('Iran'),
+('Conflit'),
+('Moyen-Orient'),
+('Israël'),
+('États-Unis'),
+('Sanctions'),
+('Nucléaire'),
+('Tensions'),
+('Armée'),
+('Diplomatie'),
+('ONU'),
+('Pétrole');

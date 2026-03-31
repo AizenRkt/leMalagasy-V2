@@ -76,7 +76,7 @@ $createurs = ['ETU003289 Sanda', 'ETU003658 Patrick'];
 		<section>
 			<h3 class="news-footer-title">Le Malagasy</h3>
 			<p class="news-footer-text">
-				Quotidien numerique consacre a l'actualite, aux analyses et aux grands dossiers.
+				Quotidien numérique consacré à l'actualite, aux analyses et aux grands dossiers.
 			</p>
 		</section>
 

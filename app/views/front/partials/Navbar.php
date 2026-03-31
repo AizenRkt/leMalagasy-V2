@@ -1,14 +1,16 @@
 <?php
-$menuItems = [
-		['label' => 'International', 'href' => '#home'],
-		['label' => 'Politique', 'href' => '#home'],
-		['label' => 'Economie', 'href' => '#home'],
-		['label' => 'Culture', 'href' => '#home'],
-		['label' => 'Sports', 'href' => '#home'],
-		['label' => 'Societe', 'href' => '#home'],
-		['label' => 'Categorie', 'href' => '#category'],
-		['label' => 'Article', 'href' => '#article'],
-];
+if (!isset($menuItems) || !is_array($menuItems) || $menuItems === []) {
+		$menuItems = [
+				['label' => 'International', 'href' => '/category'],
+				['label' => 'Politique', 'href' => '/category'],
+				['label' => 'Economie', 'href' => '/category'],
+				['label' => 'Culture', 'href' => '/category'],
+				['label' => 'Sports', 'href' => '/category'],
+				['label' => 'Societe', 'href' => '/category'],
+				['label' => 'Categorie', 'href' => '/category'],
+				['label' => 'Article', 'href' => '/article'],
+		];
+}
 
 $liveItems = [
 		[
@@ -252,12 +254,12 @@ $liveItems = [
 	</div>
 
 	<div class="news-navbar-brand-row">
-		<a href="#home" class="news-navbar-brand" aria-label="Le Malagasy accueil">Le Malagasy</a>
+		<a href="/" class="news-navbar-brand" aria-label="Le Malagasy accueil">Le Malagasy</a>
 		<button class="news-navbar-subscribe" type="button">Soutenir</button>
 	</div>
 
 	<nav class="news-navbar-menu" aria-label="Navigation principale">
-		<a href="#home" class="news-menu-link is-active">Actu</a>
+		<a href="/" class="news-menu-link is-active">Actu</a>
 		<?php foreach ($menuItems as $item): ?>
 			<a href="<?= htmlspecialchars($item['href'], ENT_QUOTES, 'UTF-8') ?>" class="news-menu-link">
 				<?= htmlspecialchars($item['label'], ENT_QUOTES, 'UTF-8') ?>

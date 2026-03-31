@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controllers\Front;
 
-use App\Core\Database;
 use App\Services\ArticleService;
-use Throwable;
+use App\Services\CategoryService;
 
 final class HomeController
 {
@@ -14,34 +13,61 @@ final class HomeController
     {
         $service = new ArticleService();
         $articles = $service->latest();
-        // $dbStatus = $this->checkDatabases();
 
         return view('front/home', [
             'title' => 'Accueil',
             'articles' => $articles,
-            // 'dbStatus' => $dbStatus,
-        ]);
+        ] + $this->frontCommonData());
     }
 
     public function about(): string
     {
         return view('front/about', [
             'title' => 'A propos',
-        ]);
+        ] + $this->frontCommonData());
     }
 
     public function singleArticle(): string
     {
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $service = new ArticleService();
+        $articleData = $service->getFrontArticle($id !== false ? $id : null);
+
+        if ($articleData === null) {
+            http_response_code(404);
+            return view('errors/404', ['uri' => '/article']);
+        }
+
+        $relatedArticles = $service->getRelatedTitles((int) $articleData['id'], 4);
+
         return view('front/singleArticle', [
-            'title' => 'Article unique',
-        ]);
+            'title' => (string) ($articleData['title'] ?? 'Article'),
+            'articleData' => $articleData,
+            'relatedArticles' => $relatedArticles,
+        ] + $this->frontCommonData());
     }
 
     public function singleCategory(): string
     {
         return view('front/singleCategory', [
             'title' => 'Categorie unique',
-        ]);
+        ] + $this->frontCommonData());
+    }
+
+    /** @return array{menuItems: array<int, array{label: string, href: string}>} */
+    private function frontCommonData(): array
+    {
+        $categoryService = new CategoryService();
+        $menuItems = [];
+
+        foreach ($categoryService->listForMenu(8) as $category) {
+            $menuItems[] = [
+                'label' => $category->name,
+                'href' => '/category?id=' . (string) $category->id,
+            ];
+        }
+
+        return ['menuItems' => $menuItems];
     }
 
     // /** @return array<string, array{ok: bool, message: string}> */
