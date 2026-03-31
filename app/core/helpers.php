@@ -143,3 +143,40 @@ function category_url(string $name, int $id): string
 
     return '/category/' . $slug . '-' . (string) $id . '.html';
 }
+
+function absolute_url(string $path = '/'): string
+{
+    $baseUrl = (string) config('app.base_url', '');
+    $normalizedBase = rtrim($baseUrl, '/');
+    $normalizedPath = '/' . ltrim($path, '/');
+
+    if ($normalizedBase === '') {
+        return $normalizedPath;
+    }
+
+    return $normalizedBase . $normalizedPath;
+}
+
+function current_url(): string
+{
+    $requestUri = (string) ($_SERVER['REQUEST_URI'] ?? '/');
+    $path = (string) (parse_url($requestUri, PHP_URL_PATH) ?? '/');
+
+    return absolute_url($path);
+}
+
+function seo_description(string $text, int $maxLength = 160): string
+{
+    $clean = trim(strip_tags($text));
+    $clean = preg_replace('/\s+/', ' ', $clean) ?? '';
+
+    if ($clean === '') {
+        return '';
+    }
+
+    if (mb_strlen($clean, 'UTF-8') <= $maxLength) {
+        return $clean;
+    }
+
+    return rtrim(mb_substr($clean, 0, $maxLength - 1, 'UTF-8')) . '…';
+}

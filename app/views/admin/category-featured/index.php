@@ -5,37 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Configuration des articles phares par categorie.">
     <title><?= htmlspecialchars($title ?? 'Articles phares par categorie', ENT_QUOTES, 'UTF-8') ?> | leMalagasy</title>
-    <style>
-        :root {
-            --primary: #2563eb;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-            --border: #e2e8f0;
-            --ok-bg: #dcfce7;
-            --ok-text: #166534;
-        }
-        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 2rem; margin: 0; }
-        .container { max-width: 1024px; margin: 0 auto; }
-        .header-box { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-        h1 { margin: 0; font-size: 1.875rem; font-weight: 800; color: #0f172a; }
-
-        .btn { background: var(--primary); color: #fff; padding: 0.625rem 1.25rem; border-radius: 0.5rem; text-decoration: none; font-weight: 600; font-size: 0.875rem; border: none; cursor: pointer; }
-        .btn:hover { opacity: 0.9; }
-        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
-
-        .notice-ok { background: var(--ok-bg); color: var(--ok-text); border: 1px solid #bbf7d0; border-radius: 0.5rem; padding: 0.75rem 1rem; margin-bottom: 1rem; font-weight: 600; }
-
-        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1rem; margin-bottom: 1rem; }
-        .row { display: grid; grid-template-columns: 220px 1fr; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem; }
-        .row:last-child { margin-bottom: 0; }
-        label { font-size: 0.875rem; font-weight: 700; color: #334155; }
-        select { width: 100%; padding: 0.55rem 0.7rem; border: 1px solid var(--border); border-radius: 0.5rem; font-size: 0.875rem; background: #fff; }
-        .hint { margin: 0 0 0.75rem 0; color: #64748b; font-size: 0.875rem; }
-        .footer-actions { display: flex; justify-content: flex-end; gap: 0.75rem; }
-    </style>
+    <link rel="stylesheet" href="/assets/admin/admin.css">
 </head>
 <body>
+<?php require_once base_path('app/views/admin/partials/sidebar.php'); ?>
 <div class="container">
     <div class="header-box">
         <h1><?= htmlspecialchars($title ?? 'Articles phares par categorie', ENT_QUOTES, 'UTF-8') ?></h1>

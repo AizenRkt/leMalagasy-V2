@@ -6,36 +6,10 @@
     <meta name="description" content="Modifier une actualité existante - Mettez à jour le contenu, les tags et les catégories avec une optimisation SEO en temps réel.">
     <title><?= htmlspecialchars($title ?? 'Modifier l\'actualité', ENT_QUOTES, 'UTF-8') ?> | leMalagasy</title>
     <link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-        }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 2rem; margin: 0; }
-        .container { max-width: 900px; margin: 0 auto; background: var(--card-bg); padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        h1 { margin-top: 0; font-size: 1.875rem; font-weight: 700; color: #111827; }
-        .form-group { margin-bottom: 1.5rem; }
-        label { display: block; font-weight: 500; margin-bottom: 0.5rem; }
-        input[type="text"], textarea, select { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; box-sizing: border-box; }
-        #editor { height: 400px; margin-bottom: 1rem; border-radius: 0 0 0.5rem 0.5rem; }
-        .ql-toolbar { border-radius: 0.5rem 0.5rem 0 0; background: #f1f5f9; }
-        .btn { background: var(--primary); color: #fff; padding: 0.75rem 1.5rem; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem; transition: background 0.2s; }
-        .btn:hover { background: var(--primary-hover); }
-        .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-
-        /* Tag Pills */
-        .tag-container { display: flex; flex-wrap: wrap; gap: 0.5rem; border: 1px solid #d1d5db; padding: 1rem; border-radius: 0.5rem; background: #fff; max-height: 200px; overflow-y: auto; }
-        .tag-pill { display: flex; align-items: center; padding: 0.375rem 0.75rem; background: #f1f5f9; border-radius: 9999px; cursor: pointer; font-size: 0.875rem; border: 1px solid transparent; transition: all 0.2s; user-select: none; }
-        .tag-pill:hover { background: #e2e8f0; }
-        .tag-pill.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-        .tag-pill input { display: none; }
-        .tag-search { margin-bottom: 0.75rem; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; width: 100%; font-size: 0.875rem; }
-    </style>
+    <link rel="stylesheet" href="/assets/admin/admin.css">
 </head>
 <body>
+    <?php require_once base_path('app/views/admin/partials/sidebar.php'); ?>
     <div class="container">
         <h1><?= htmlspecialchars($title ?? 'Modifier l\'actualité', ENT_QUOTES, 'UTF-8') ?></h1>
         <form action="/admin/articles/edit?id=<?= $article->id ?>" method="POST" id="articleForm">

@@ -17,6 +17,12 @@ final class HomeController
 
         return view('front/home', [
             'title' => 'Accueil',
+            'seo' => [
+                'title' => 'Accueil',
+                'description' => 'Consultez les dernieres actualites et analyses de la redaction Le Malagasy.',
+                'canonical' => absolute_url('/'),
+                'type' => 'website',
+            ],
             'featuredArticle' => $feedData['featuredArticle'],
             'latestArticles' => $feedData['latestArticles'],
             'spotlightArticles' => $feedData['spotlightArticles'],
@@ -42,9 +48,24 @@ final class HomeController
         }
 
         $relatedArticles = $service->getRelatedTitles((int) $articleData['id'], 4);
+        $articleTitle = (string) ($articleData['title'] ?? 'Article');
+        $articleId = (int) ($articleData['id'] ?? 0);
+        $canonical = article_url($articleTitle, $articleId);
+
+        $descriptionSource = (string) ($articleData['standfirst'] ?? '');
+        if ($descriptionSource === '') {
+            $descriptionSource = (string) ($articleData['contentHtml'] ?? '');
+        }
 
         return view('front/singleArticle', [
-            'title' => (string) ($articleData['title'] ?? 'Article'),
+            'title' => $articleTitle,
+            'seo' => [
+                'title' => $articleTitle,
+                'description' => seo_description($descriptionSource),
+                'canonical' => absolute_url($canonical),
+                'type' => 'article',
+                'image' => (string) ($articleData['heroImage'] ?? ''),
+            ],
             'articleData' => $articleData,
             'relatedArticles' => $relatedArticles,
         ] + $this->frontCommonData());
@@ -61,8 +82,19 @@ final class HomeController
             return view('errors/404', ['uri' => '/category']);
         }
 
+        $categoryName = (string) ($categoryData['name'] ?? 'Categorie');
+        $categoryId = (int) ($categoryData['id'] ?? 0);
+        $canonical = category_url($categoryName, $categoryId);
+        $description = 'Retrouvez tous les articles de la categorie ' . $categoryName . ' sur Le Malagasy.';
+
         return view('front/singleCategory', [
-            'title' => 'Categorie: ' . (string) ($categoryData['name'] ?? ''),
+            'title' => 'Categorie: ' . $categoryName,
+            'seo' => [
+                'title' => 'Categorie: ' . $categoryName,
+                'description' => seo_description($description),
+                'canonical' => absolute_url($canonical),
+                'type' => 'website',
+            ],
             'categoryData' => $categoryData,
             'featuredArticles' => $categoryData['featuredArticles'] ?? [],
             'categoryArticles' => $categoryData['categoryArticles'] ?? [],
