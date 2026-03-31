@@ -7,6 +7,32 @@ $relatedArticles = is_array($relatedArticles ?? null) ? $relatedArticles : [];
 
 $tags = is_array($articleData['tags'] ?? null) ? $articleData['tags'] : [];
 $contentHtml = (string) ($articleData['contentHtml'] ?? '');
+$heroImage = (string) ($articleData['heroImage'] ?? '');
+
+if ($contentHtml !== '' && $heroImage !== '') {
+  $dom = new DOMDocument('1.0', 'UTF-8');
+  libxml_use_internal_errors(true);
+  $loaded = $dom->loadHTML('<?xml encoding="utf-8" ?>' . $contentHtml, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+  if ($loaded) {
+    $imgs = $dom->getElementsByTagName('img');
+    if ($imgs->length > 0) {
+      $firstImg = $imgs->item(0);
+      $firstSrc = (string) $firstImg->getAttribute('src');
+      if ($firstSrc === $heroImage) {
+        $parent = $firstImg->parentNode;
+        if ($parent && strtolower($parent->nodeName) === 'figure') {
+          if ($parent->parentNode) {
+            $parent->parentNode->removeChild($parent);
+          }
+        } elseif ($firstImg->parentNode) {
+          $firstImg->parentNode->removeChild($firstImg);
+        }
+      }
+    }
+    $contentHtml = $dom->saveHTML() ?: $contentHtml;
+  }
+  libxml_clear_errors();
+}
 ?>
 
 <section class="news-article-page" aria-label="Article complet">
@@ -29,9 +55,9 @@ $contentHtml = (string) ($articleData['contentHtml'] ?? '');
     </div>
   </header>
 
-  <?php if (!empty($articleData['heroImage'])): ?>
+  <?php if ($heroImage !== ''): ?>
     <figure class="news-article-hero">
-      <img src="<?= newsEsc((string) $articleData['heroImage']) ?>" alt="<?= newsEsc((string) ($articleData['title'] ?? 'Article')) ?>">
+      <img src="<?= newsEsc($heroImage) ?>" alt="<?= newsEsc((string) ($articleData['title'] ?? 'Article')) ?>">
       <?php if (!empty($articleData['heroCaption'])): ?>
         <figcaption><?= newsEsc((string) $articleData['heroCaption']) ?></figcaption>
       <?php endif; ?>
