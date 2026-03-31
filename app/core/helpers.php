@@ -114,3 +114,32 @@ function article_url(string $title, int $id): string
 
     return '/' . $slug . '-' . (string) $id . '.html';
 }
+
+function category_url(string $name, int $id): string
+{
+    if ($id <= 0) {
+        return '/category';
+    }
+
+    $value = trim($name);
+    if ($value === '') {
+        return '/category?id=' . (string) $id;
+    }
+
+    $slug = mb_strtolower($value, 'UTF-8');
+    if (function_exists('iconv')) {
+        $converted = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $slug);
+        if (is_string($converted) && $converted !== '') {
+            $slug = $converted;
+        }
+    }
+
+    $slug = preg_replace('/[^a-z0-9]+/', '-', $slug) ?? '';
+    $slug = trim($slug, '-');
+
+    if ($slug === '') {
+        $slug = 'category';
+    }
+
+    return '/category/' . $slug . '-' . (string) $id . '.html';
+}

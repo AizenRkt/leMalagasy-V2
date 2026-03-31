@@ -21,10 +21,19 @@ final class Router
 
     public function dispatch(string $method, string $uri): void
     {
+        $normalizedMethod = strtoupper($method) === 'HEAD' ? 'GET' : $method;
         $normalizedUri = $this->normalizeUri($uri);
-        $action = $this->routes[$method][$normalizedUri] ?? null;
+        $action = $this->routes[$normalizedMethod][$normalizedUri] ?? null;
 
-        if ($action === null && strtoupper($method) === 'GET') {
+        if ($action === null && strtoupper($normalizedMethod) === 'GET') {
+            if (preg_match('#^/category/[a-z0-9-]+-([0-9]+)\.html$#i', $normalizedUri, $matches)) {
+                $id = (int) ($matches[1] ?? 0);
+                if ($id > 0) {
+                    $_GET['id'] = $id;
+                    $action = $this->routes['GET']['/category'] ?? null;
+                }
+            }
+
             if (preg_match('#^/[a-z0-9-]+-([0-9]+)\.html$#i', $normalizedUri, $matches)) {
                 $id = (int) ($matches[1] ?? 0);
                 if ($id > 0) {

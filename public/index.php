@@ -15,4 +15,19 @@ $router = new Router();
 require_once dirname(__DIR__) . '/routes/web.php';
 require_once dirname(__DIR__) . '/routes/admin.php';
 
-$router->dispatch($_SERVER['REQUEST_METHOD'] ?? 'GET', $_SERVER['REQUEST_URI'] ?? '/');
+$requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+$requestUri = $_SERVER['REQUEST_URI'] ?? '/';
+
+$seoRoute = $_GET['route'] ?? null;
+$seoId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+if (is_string($seoRoute) && $seoId > 0) {
+	if ($seoRoute === 'category') {
+		$_GET['id'] = $seoId;
+		$requestUri = '/category?id=' . (string) $seoId;
+	} elseif ($seoRoute === 'article') {
+		$_GET['id'] = $seoId;
+		$requestUri = '/article?id=' . (string) $seoId;
+	}
+}
+
+$router->dispatch($requestMethod, $requestUri);

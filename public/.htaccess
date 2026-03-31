@@ -1,5 +1,8 @@
 RewriteEngine On
 
+# SEO category URL: /category/slug-123.html -> front controller /category?id=123
+RewriteRule ^category/([a-z0-9-]+)-([0-9]+)\.html$ index.php?route=category&id=$2 [QSA,L,NC]
+
 # SEO article URL: /slug-123.html -> /article?id=123
 RewriteRule ^([a-z0-9-]+)-([0-9]+)\.html$ article?id=$2 [QSA,L,NC]
 

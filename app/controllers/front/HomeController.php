@@ -78,7 +78,7 @@ final class HomeController
         foreach ($categoryService->listForMenu(8) as $category) {
             $menuItems[] = [
                 'label' => $category->name,
-                'href' => '/category?id=' . (string) $category->id,
+                'href' => category_url((string) $category->name, (int) $category->id),
             ];
         }
 
