@@ -47,6 +47,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./docker/postgres/00-init-db.sh:/docker-entrypoint-initdb.d/00-init-db.sh:ro
       - ./db/01_bdd.sql:/opt/init-sql/01_bdd.sql:ro
+      - ./storage/data/postgres:/opt/backup/postgres:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U lemalagasy_user -d lemalagasy_db"]
       interval: 10s
@@ -63,6 +64,8 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+      - ./docker/mongo/01-restore.sh:/docker-entrypoint-initdb.d/01-restore.sh:ro
+      - ./storage/data/mongo:/opt/backup/mongo:ro
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
