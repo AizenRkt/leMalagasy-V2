@@ -79,3 +79,43 @@ Date: 2026-03-30
 - `singleCategory.php` reutilise les helpers partages via `ArticleCard.php` (`newsEsc`, `newsFormatDateFr`, `renderFrontStylesheet`).
 - CSS de la page extrait vers `public/assets/front/single-category.css` et charge via `renderFrontStylesheet`.
 - Liens internes de la categorie rediriges vers `/article` pour s'integrer au parcours front.
+
+## Menu dynamique via CategoryService
+
+Date: 2026-03-30
+
+- Creation de `app/services/CategoryService.php` sur le pattern des services de donnees (acces PostgreSQL + modele `Category`).
+- Methode principale ajoutee: `listForMenu(int $limit = 8)` pour alimenter la navigation front.
+- `HomeController` injecte maintenant `menuItems` dynamiques vers les vues front via `frontCommonData()`.
+- `Navbar.php` utilise les donnees `menuItems` recues, avec fallback statique si aucune categorie n'est disponible.
+
+Impact:
+
+- Les elements de navigation peuvent maintenant refleter les categories de la base.
+- Le menu est centralise cote service/controleur au lieu d'etre fige dans la vue.
+
+## singleArticle dynamique via service
+
+Date: 2026-03-30
+
+- `ArticleService` expose maintenant `getFrontArticle(?int $id)` pour construire un payload front depuis PostgreSQL + MongoDB.
+- Le service reconstruit les champs de page (`title`, `standfirst`, `author`, `category`, `tags`, `contentHtml`, etc.) depuis les donnees mongo (`titre`, `contenu`, `auteur`, `categorie`, `tags`).
+- `HomeController::singleArticle()` lit `id` depuis la query string (`/article?id=...`) et injecte les donnees dynamiques vers la vue.
+- La vue `front/singleArticle.php` n'utilise plus de contenu hardcode; elle affiche le contenu HTML de MongoDB et les metadonnees dynamiques.
+
+## Stockage des images d'article hors base
+
+Date: 2026-03-30
+
+- Le flux `create/update` d'`ArticleService` traite maintenant le HTML du contenu avant ecriture MongoDB.
+- Les images embeddees en base64 (`data:image/...`) sont extraites et enregistrees dans `storage/uploads`.
+- Les `src` des balises `<img>` sont remplaces par un chemin fichier (`/storage/uploads/<nom_fichier>`).
+
+Impact:
+
+- Le contenu MongoDB ne transporte plus les blobs d'image en base64.
+- Le stockage est plus leger et la maintenance des medias est simplifiee.
+
+Mise a jour:
+
+- Les chemins d'images remplaces utilisent maintenant `config('app.base_url')` pour generer une URL absolue (ex: `http://localhost:8080/storage/uploads/...`).
